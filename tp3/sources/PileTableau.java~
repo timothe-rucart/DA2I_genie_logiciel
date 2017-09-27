@@ -1,0 +1,66 @@
+public class PileTableau implements Pile<E>{
+
+    private E[] elements;    // les elements contenus dans la pile
+    private int nbElem = 0 ; // le nombre delements dans la pile
+    private String nom ;     // nom de la pile : information supplementaire propre a PileTableau
+
+    boolean vide(){
+	return nbElem == 0;
+    }
+
+    boolean pleine(){
+	return nbElem == MAX_ELEMENTS;
+    }
+    
+    boolean peutEmpiler(E x){
+	return !pleine();
+    }
+    
+    E sommet(){
+	return elements[nbElem -1];
+    }
+    
+    E depile(){
+	E var = elements[nbElem -1];
+	elements[nbElem -1]=null;
+	nbElem--;
+	return var;
+    }
+    
+    void empile(E x){
+	if(!pleine()){
+	    elements[nbElem]=x;
+	    nbElem++;
+	}
+	else{
+	    System.out.println("la pile est pleine");
+	}
+    }
+    
+    void vider(){
+	for(int i=0 ; i<nbElem ; i++){
+	    elements[i]=null;
+	}
+    }
+    
+    int nbElements(){
+	return nbElem;
+    }
+    
+    void deplacerUnElementVers(Pile<E> p) {
+	
+	E var = sommet();
+	p.empile(var);
+    }
+
+    String toString() {
+	String var;
+
+	for(int i=0 ; i<nbElem ; i++){
+	    var+= element[i]+"-";
+	}
+	return var;
+    }
+    
+    
+}
