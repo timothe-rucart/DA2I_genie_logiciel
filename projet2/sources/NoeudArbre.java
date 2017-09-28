@@ -1,4 +1,5 @@
 import java.util.Scanner;
+
 public class NoeudArbre{
 
     String contenu;
@@ -12,8 +13,8 @@ public class NoeudArbre{
     
     NoeudArbre(String contenu, NoeudArbre n1, NoeudArbre n2){
         this.contenu=contenu;
-        positif = n1;
-        negatif = n2;
+        positif = n2;
+        negatif = n1;
     }
     
     public int examiner(String reponse){
@@ -27,15 +28,16 @@ public class NoeudArbre{
             return 0;
         }
     }
-
     
     public void rechercherAnimal(){
-        System.out.println("Est-ce "+contenu);
+        System.out.println(contenu);
         
         Scanner sc = new Scanner(System.in);
         String repUtilisateur = sc.nextLine();
         
         int i = examiner(repUtilisateur);
+        if(i==0)
+            rechercherAnimal();
         
         if(i==1){
             if(positif!=null)
@@ -51,45 +53,6 @@ public class NoeudArbre{
                 questionNouvelAnimal();
             }
         }
-        
-        
-        
-        
-    /*
-        if(i==1 ){
-         
-            if(positif==null){                
-                System.out.println("Est-ce "+positif.contenu+"?");  
-            
-                repUtilisateur = sc.nextLine();
-                i = examiner(repUtilisateur);
-                
-                if(i==1)
-                    System.out.println("Trouvé ! Fin");
-                else
-                    questionNouvelAnimal();
-            }
-            else
-                positif.rechercherAnimal();
-        }
-        
-        
-        else if(i==-1){
-        
-            if(negatif==null){
-                System.out.println("Est ce "+negatif.contenu+"?");
-                repUtilisateur = sc.nextLine();
-                i = examiner(repUtilisateur);
-                if(i==1)
-                    System.out.println("Trouvé ! Fin");
-                else
-                    questionNouvelAnimal();
-            }
-            else{
-                negatif.rechercherAnimal();
-            }
-        }*/
-
     }
     
     public void questionNouvelAnimal(){
@@ -122,22 +85,63 @@ public class NoeudArbre{
         if(positif != null)
             res += positif+" ";
         
-        return res;
-        //return ("\"Est ce "+contenu+"?\" \""+negatif+"\" \""+positif+"\"");
+        return res;     
     }
     
-    public static void main(String [] args){
-        NoeudArbre arbre = new NoeudArbre(args[0], new NoeudArbre(args[2]),new NoeudArbre(args[1]));        
+    public String definir(String animal){
         
-        Scanner sc = new Scanner(System.in);
-        boolean continuer = true;
-        while(continuer){
-            arbre.rechercherAnimal();
-            System.out.println("Voulez-vous rejouer?");            
-            
-            if(sc.nextLine().equals("non"))
-                continuer = false;
-            System.out.println(arbre);
-        }    
+        String rep = contenu + " ";
+	   if(negatif == null){
+	       if(contenu.equals(animal)){
+               return contenu;
+           } else {
+               return "";
+	       }    
+	   }
+
+	if(negatif != null){
+	    String rep2 =  negatif.definir(animal);
+	    if(!rep2.equals("")){
+		rep+= " non => " + rep2;
+	    }
+	}
+	
+	if(positif != null && !rep.contains(animal)){
+	    String rep2 =  positif.definir(animal);
+	    if(!rep2.equals("")){
+		rep+= " oui => " + rep2;
+	    }
+	}
+	
+	return rep;
+    }
+    
+    
+    public static void main(String [] args){
+        NoeudArbre arbre;        
+         
+        if(args.length>0 && args[0].equals("--definir")){            
+            arbre = new NoeudArbre("est ce un mammifere?", new NoeudArbre("un croco"), new NoeudArbre("un cheval"));
+            System.out.println(arbre.definir(args[1]));
+        }
+        else{
+             if(args.length == 0){      
+                arbre = new NoeudArbre("est ce un mammifere?", new NoeudArbre("un croco"), new NoeudArbre("Est-ce qu'il aboie?",new NoeudArbre("un cheval"),new NoeudArbre("un chien")));
+          }
+            else{
+                arbre = new NoeudArbre(args[0], new NoeudArbre(args[2]),new NoeudArbre(args[1]));        
+            }
+                Scanner sc = new Scanner(System.in);
+                boolean continuer = true;
+
+                while(continuer){
+                    arbre.rechercherAnimal();
+                    System.out.println("Voulez-vous rejouer?");            
+
+                    if(sc.nextLine().equals("non"))
+                        continuer = false;                    
+            }  
+        }          
+        System.out.println(arbre);
     }        
 }
