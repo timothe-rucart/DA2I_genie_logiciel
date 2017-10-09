@@ -1,0 +1,10 @@
+import java.util.StringTokenizer;
+
+public class MajMin{
+
+    public static void main(String [] args) {
+	String phrase="";
+	Scanner sc = new Scanner (System.in);
+	System.out.println("Entrez une phrase : ");
+    }
+}
