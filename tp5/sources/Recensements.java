@@ -1,0 +1,68 @@
+import java.util.Scanner;
+import java.util.BitSet;
+import java.util.HashSet;
+import java.util.HashMap;
+
+public class Recensements{
+    public static void main(String args[]){
+	Scanner scanner = new Scanner(System.in);
+	System.out.println("Veuillez saisir une phrase :");
+	String phrase = scanner.nextLine();
+
+	withBitSet(phrase);
+	withHashSet(phrase);
+	withHashMap(phrase);
+    }
+
+
+     public static void withHashMap(String phrase){
+	HashMap<Character, Integer> map = new HashMap<>();
+
+	int index=0;
+	while(index < phrase.length()){
+	    Character c = phrase.charAt(index);
+	    if(map.containsKey(c)){
+		//maj
+		Integer val = map.get(c) +1;
+		map.put(c, val);
+	    } else {
+		//ajout
+		map.put(c, 1);
+	    }	    
+	    index++;
+	}
+	System.out.println(map);
+     }
+    
+
+     public static void withHashSet(String phrase){
+	HashSet hs = new HashSet();
+
+	int index=0;
+	while(index < phrase.length()){
+	    hs.add(phrase.charAt(index));
+	    index++;
+	}
+	System.out.println(hs);
+     }
+
+   
+    public static void withBitSet(String phrase){
+	BitSet bs = new BitSet();
+
+	int index=0;
+	while(index < phrase.length()){
+	    bs.set(phrase.charAt(index));
+	    index++;
+
+	}
+
+	for (int i=0; i<bs.length(); i++){
+	    if (bs.get(i)){
+		System.out.print((char) i + " ");
+	    }
+	}
+
+	System.out.println();
+    }
+}
