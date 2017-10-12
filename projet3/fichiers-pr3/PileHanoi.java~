@@ -1,0 +1,59 @@
+import java.util.Stack;
+public class PileHanoi implements Pile{
+
+    int nbElement=0;
+    Stack stack = new Stack();
+
+    boolean vide(){
+	return stack.empty();
+    }
+
+    boolean pleine(){
+	return nbElement == MAX_ELEMENTS;
+    }
+
+    boolean peutEmpiler(E x){
+	return !pleine() && x.diametre() < sommet().diametre();
+    }
+
+    E sommet(){
+	return stack.peek();
+    }
+
+    E depile(){
+	if(!vide()){
+	    nbElement--;
+	    return stack.pop();
+	}
+	return null;
+    }
+
+    void empile(E x){
+	nbElements++;
+	stack.push(x);
+    }
+
+    void vider(){
+	while(nbElements != 0){
+	    depile();
+	}
+    }
+
+    int nbElements(){
+	return nbElements;
+    }
+
+    void deplacerUnElementVers(Pile<E> p){
+	E e = depile();
+	p.empile(e);
+    }
+
+    Stirng toString(){
+	String res="";
+	Stack p = this.stack;
+	while(p.!vide()){
+	    res+= p.depile()+" ";
+	}
+	return res;
+    }
+}
